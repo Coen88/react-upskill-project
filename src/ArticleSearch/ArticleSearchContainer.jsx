@@ -3,6 +3,7 @@ import ArticleSearchBar from './ArticleSearchBar';
 import Article from './Article';
 // import { articles } from './resources/Articles';
 import { Grid, CircularProgress } from '@material-ui/core';
+import fetchWikiData from './wikipediaAPI'
 
 
 
@@ -28,35 +29,63 @@ const ArticleSearchContainer = () => {
         }
         console.log('serach value ', searchValue)
         setStatus('loading')
-        // const fetchData = () => {
-            window.fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=${encodeURIComponent(searchValue)}`)
-                .then(async response => {
-                    const data = await response.json()
-                    if (response.ok) {
-                        return data
-                    } else {
-                        return Promise.reject(data)
-                    }
-                })
-                .then(
-                    responseData => {
-                        setArticlesData(responseData)
-                        setStatus('success')
-                    },
-                    errorData => {
-                        setError(errorData)
-                        setStatus('error')
-                    }
-                )
-    
+        // 1st method
+        // window.fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=${encodeURIComponent(searchValue)}`)
+        //     .then(async response => {
+        //         const data = await response.json()
+        //         if (response.ok) {
+        //             return data
+        //         } else {
+        //             return Promise.reject(data)
+        //         }
+        //     })
+        //     .then(
+        //         responseData => {
+        //             setArticlesData(responseData)
+        //             setStatus('success')
+        //         },
+        //         errorData => {
+        //             setError(errorData)
+        //             setStatus('error')
+        //         }
+        //     )
                 
-            // }
+        // 2nd method
+        // const fetchData = async () => {
+        //     await window.fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=${encodeURIComponent(searchValue)}`)
+        //     .then(response => {
+        //         const data = response.json()
+        //         if (response.ok) {
+        //             return data
+        //         } else {
+        //             return Promise.reject(data)
+        //         }
+        //     })
+        //     .then(
+        //         responseData => {
+        //             setArticlesData(responseData)
+        //             setStatus('success')
+        //         },
+        //         errorData => {
+        //             setError(errorData)
+        //             setStatus('error')
+        //         }
+        //     )
+        // }
         // fetchData()
 
-        // fetchData jest async
-        // a w środku windoew fetch jest na await
-
-
+        // 3rd method
+        fetchWikiData(searchValue)
+        .then(
+          responseData => {
+            setArticlesData(responseData)
+            setStatus('success')
+          },
+          errorData => {
+            setError(errorData)
+            setStatus('error')
+          }
+        )
     },[searchValue, queried])
 
     return (
