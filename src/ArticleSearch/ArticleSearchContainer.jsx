@@ -4,6 +4,7 @@ import Article from './Article';
 // import { articles } from './resources/Articles';
 import { Grid, CircularProgress } from '@material-ui/core';
 import fetchWikiData from './wikipediaAPI'
+import {useDebounce} from 'react-use'
 
 
 
@@ -16,17 +17,28 @@ const ArticleSearchContainer = () => {
     const [articlesData, setArticlesData] = useState(null)
     const [queried, setQueried] = useState(false)
     const [error, setError] = useState(false)
+    const [typing, setTyping] = useState(0)
     
     const handleChange = (e) => {
         const {value} = e.target
         setSearchValue(value.toLowerCase())
         setQueried(true)
+        // setTyping(true)
     }
+    
+    useDebounce(
+        () => {
+            setTyping(typing + 1);
+        },
+        2000,
+        [searchValue]
+    );
 
     useEffect(() => {
         if (!queried) {
             return
         }
+
         console.log('serach value ', searchValue)
         setStatus('loading')
         // 1st method
@@ -75,6 +87,7 @@ const ArticleSearchContainer = () => {
         // fetchData()
 
         // 3rd method
+        
         fetchWikiData(searchValue)
         .then(
           responseData => {
@@ -86,7 +99,8 @@ const ArticleSearchContainer = () => {
             setStatus('error')
           }
         )
-    },[searchValue, queried])
+    },[typing])
+    // },[searchValue, queried])
 
     return (
         <Grid container spacing={2}>
