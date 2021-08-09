@@ -99,11 +99,14 @@ const ArticleSearchContainer = () => {
             setStatus('error')
           }
         )
-    },[typing])
+    },[typing, queried])
     // },[searchValue, queried])
 
     return (
         <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
+                <h1>Wiki search</h1>
+            </Grid>
             <ArticleSearchBar searchValue={searchValue} handleChange={handleChange} />
             {isError ? error.message : null}
             {isLoading ? <CircularProgress /> : null}
