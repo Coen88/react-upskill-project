@@ -1,9 +1,14 @@
 import React from 'react';
 import ArticleButtonLink from './ArticleButtonLink'
 import { Card, CardContent, Grid } from '@material-ui/core';
+import {ArticleType} from "./types/ArticleType";
 
-const Article = ({article}) => {
-    const {title, snippet, pageid} = article
+export interface ArticlePropsType {
+    article: ArticleType
+}
+
+const Article = (props: ArticlePropsType) => {
+    const {title, snippet, pageid} = props.article
     const url = `https://en.wikipedia.org/?curid=${pageid}`
     
     return (
@@ -26,7 +31,5 @@ const Article = ({article}) => {
         </Grid>
     );
 };
-
-Article.propTypes = {};
 
 export default Article;
