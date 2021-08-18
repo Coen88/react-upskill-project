@@ -1,8 +1,8 @@
-import ArticleSearchContainer from './ArticleSearch/ArticleSearchContainer';
+import AppNavigation from './AppNavigation';
 
 export const App = () => (
     <div className="App">
-        <ArticleSearchContainer />
+        <AppNavigation />
     </div>
 );
 
